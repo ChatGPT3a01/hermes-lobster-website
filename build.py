@@ -282,6 +282,15 @@ UNITS = [
         'parent':     'ai-cli-group',
         'isGroup':    False,
     },
+    {
+        'id':         'google-antigravity',
+        'folder':     'md',
+        'file':       '13_google_antigravity.md',
+        'title':      'Google Antigravity：Gemini 免費方案完整教學',
+        'shortTitle': '🪐 Google Antigravity',
+        'parent':     'ai-cli-group',
+        'isGroup':    False,
+    },
 
     # ── 啟動指南 / 指令速查 / 好書 ────────────────────────────────
     {
