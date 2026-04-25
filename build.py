@@ -273,6 +273,15 @@ UNITS = [
         'parent':     'ai-cli-group',
         'isGroup':    False,
     },
+    {
+        'id':         'ollama-free',
+        'folder':     'md',
+        'file':       '12_ollama_free.md',
+        'title':      'Ollama 免費方案完整教學',
+        'shortTitle': '🦙 Ollama 免費方案',
+        'parent':     'ai-cli-group',
+        'isGroup':    False,
+    },
 
     # ── 指令速查 / 好書 ─────────────────────────────────────────
     {
