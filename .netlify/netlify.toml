@@ -9,7 +9,6 @@ redirects = []
 [build]
 publish = "D:\\Moltbot\\HermesAgent一鍵自動安裝程式\\website"
 publishOrigin = "config"
-base = "D:\\Moltbot\\HermesAgent一鍵自動安裝程式\\website"
 
 [build.environment]
 
