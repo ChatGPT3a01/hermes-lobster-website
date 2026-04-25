@@ -44,7 +44,7 @@ HermesAgent 是 [NousResearch](https://nousresearch.com) 開發的通用型 AI A
 
 ## 快速開始
 
-**Windows 使用者（推薦）：**
+### 🪟 Windows 一鍵安裝精靈（推薦新手）
 
 > ⬇️ **[點我下載 Windows 一鍵安裝精靈（ZIP）](HermesAgent-Installer.zip)**
 
@@ -52,7 +52,7 @@ HermesAgent 是 [NousResearch](https://nousresearch.com) 開發的通用型 AI A
 2. 對 `go.bat` 按右鍵 → **以系統管理員身分執行**
 3. 選擇 **[1] 全部安裝**，跟著精靈走！
 
-**Mac 使用者：**
+### 🍎 Mac 一鍵安裝腳本
 
 > ⬇️ **[點我下載 Mac 一鍵安裝腳本（Shell Script）](install-hermes-mac.sh)**
 
@@ -62,6 +62,16 @@ HermesAgent 是 [NousResearch](https://nousresearch.com) 開發的通用型 AI A
 # 下載後執行：
 bash install-hermes-mac.sh
 ```
+
+### 🤖 AI Agent 自動安裝（有 Claude Code / Codex CLI 的用這個！）
+
+已安裝 Claude Code 或 Codex CLI？下載解壓縮後，進資料夾啟動 AI，貼上這句話：
+
+```
+【依據資料夾中的腳本，以"Agent-driven development"模式協助我安裝】
+```
+
+AI 會自己讀腳本、執行、排錯、完成安裝。詳細說明見左側「🤖 AI 自動安裝」。
 
 ---
 

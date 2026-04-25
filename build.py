@@ -61,6 +61,15 @@ UNITS = [
         'isGroup':    True,
     },
     {
+        'id':         'ai-install',
+        'folder':     'md',
+        'file':       '04a_ai_install.md',
+        'title':      'AI Agent 自動安裝（進階）',
+        'shortTitle': '🤖 AI 自動安裝',
+        'parent':     'install-group',
+        'isGroup':    False,
+    },
+    {
         'id':         'install-windows',
         'folder':     'md',
         'file':       '04_install_windows.md',
