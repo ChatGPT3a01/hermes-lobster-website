@@ -283,7 +283,16 @@ UNITS = [
         'isGroup':    False,
     },
 
-    # ── 指令速查 / 好書 ─────────────────────────────────────────
+    # ── 啟動指南 / 指令速查 / 好書 ────────────────────────────────
+    {
+        'id':         'start-guide',
+        'folder':     'md',
+        'file':       'start_guide.md',
+        'title':      '每次啟動愛馬仕龍蝦',
+        'shortTitle': '▶️ 啟動指南',
+        'parent':     None,
+        'isGroup':    False,
+    },
     {
         'id':         'commands',
         'folder':     'md',
