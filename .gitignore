@@ -4,7 +4,12 @@ data/units_from_other_pc.js
 # 大型圖檔（由本地保留，不進 git）
 og-image.jpg
 
-# ZIP 安裝包（由本地手動更新）
+# 大型 ZIP（不追蹤）
+# 安裝精靈 ZIP 例外追蹤（小檔，需同步）
+!HermesAgent-Installer.zip
+!ClaudeCode-Installer.zip
+!CodexCLI-Installer.zip
+!HermesLobster-SKILL.zip
 *.zip
 
 # OS
