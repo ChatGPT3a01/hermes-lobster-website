@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>愛馬仕龍蝦 HermesAgent 一鍵安裝</title>
+  <meta name="description" content="HermesAgent 一鍵安裝精靈：Windows/Mac 安裝、Telegram/LINE 整合、使用情境。由阿亮老師（曾慶良）製作。" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://hermes-lobster.netlify.app/" />
+  <meta property="og:title"       content="🦞🪽 愛馬仕龍蝦 HermesAgent 一鍵安裝精靈" />
+  <meta property="og:description" content="五分鐘搞定！Windows / Mac 一鍵安裝 HermesAgent，串接 Telegram & LINE Bot，打造你的 AI 管家！" />
+  <meta property="og:image"       content="https://hermes-lobster.netlify.app/og-image.jpg" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale"      content="zh_TW" />
+
+  <!-- Twitter Card (Line Preview 也會吃這個) -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="🦞🪽 愛馬仕龍蝦 HermesAgent 一鍵安裝精靈" />
+  <meta name="twitter:description" content="五分鐘搞定！Windows / Mac 一鍵安裝 HermesAgent，串接 Telegram & LINE Bot，打造你的 AI 管家！" />
+  <meta name="twitter:image"       content="https://hermes-lobster.netlify.app/og-image.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="site-header">
+    <button class="menu-toggle" id="menuToggle" aria-label="開啟選單">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="header-content">
+      <h1 class="site-title">🦞🪽 愛馬仕龍蝦 HermesAgent 一鍵安裝</h1>
+      <p class="site-subtitle">AI Agent 完整教學 × Windows × Mac × Telegram × LINE</p>
+    </div>
+    <div class="header-actions">
+      <a href="HermesAgent-Installer.zip" download class="header-btn header-btn-download" title="下載 Windows 一鍵安裝精靈（ZIP）">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span class="btn-label">⬇ Win 安裝精靈</span>
+      </a>
+      <a href="install-hermes-mac.sh" download class="header-btn header-btn-download-mac" title="下載 Mac 一鍵安裝腳本（Shell Script）">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span class="btn-label">⬇ Mac 安裝腳本</span>
+      </a>
+      <a href="HermesLobster-SKILL.zip" download class="header-btn header-btn-skill" title="愛馬仕龍蝦安裝SKILL與知識庫下載">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/><path d="M12 8v8"/><path d="M8 12l4 4 4-4"/></svg>
+        <span class="btn-label">🧠 SKILL 知識庫</span>
+      </a>
+      <a href="ClaudeCode-Installer.zip" download class="header-btn header-btn-claude" title="Claude Code CLI 一鍵安裝精靈下載">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span class="btn-label">⬇ Claude Code</span>
+      </a>
+      <a href="CodexCLI-Installer.zip" download class="header-btn header-btn-codex" title="OpenAI Codex CLI 一鍵安裝精靈下載">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span class="btn-label">⬇ Codex CLI</span>
+      </a>
+      <a href="https://www.tenlong.com.tw/products/9786264144803" target="_blank" rel="noopener" class="header-btn" title="購買實體書">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <span class="btn-label">購書</span>
+      </a>
+      <a href="https://www.youtube.com/@Liang-yt02" target="_blank" rel="noopener" class="header-btn" title="YouTube 頻道">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23 7s-.3-2-1.2-2.8c-1.1-1.2-2.4-1.2-3-1.3C16.2 2.8 12 2.8 12 2.8s-4.2 0-6.8.1c-.6.1-1.9.1-3 1.3C1.3 5 1 7 1 7S.7 9.1.7 11.2v2c0 2.1.3 4.2.3 4.2s.3 2 1.2 2.8c1.1 1.2 2.6 1.1 3.3 1.2C7.2 21.6 12 21.6 12 21.6s4.2 0 6.8-.3c.6-.1 1.9-.1 3-1.3.9-.8 1.2-2.8 1.2-2.8s.3-2.1.3-4.2v-2C23.3 9.1 23 7 23 7zM9.7 15.5V8.4l8.1 3.6-8.1 3.5z"/></svg>
+        <span class="btn-label">YouTube</span>
+      </a>
+      <a href="https://www.facebook.com/groups/2754139931432955" target="_blank" rel="noopener" class="header-btn" title="Facebook 社團">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        <span class="btn-label">社團</span>
+      </a>
+      <button class="header-btn" id="fullscreenBtn" title="全螢幕">
+        <svg id="fsIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+        <span class="btn-label">全螢幕</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== Main Layout ===== -->
+  <div class="main-layout">
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>目錄</h2>
+      </div>
+      <ul class="nav-list" id="navList"></ul>
+      <div class="sidebar-footer">
+        <button class="settings-btn" id="settingsBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          顯示設定
+        </button>
+      </div>
+    </nav>
+
+    <!-- Sidebar Resizer -->
+    <div class="sidebar-resizer" id="sidebarResizer"></div>
+
+    <!-- Settings Panel -->
+    <div class="settings-panel" id="settingsPanel">
+      <div class="settings-panel-header">
+        <h3>顯示設定</h3>
+        <button class="settings-close" id="settingsClose">×</button>
+      </div>
+      <div class="settings-panel-body">
+        <div class="settings-group">
+          <label class="settings-label">文字大小</label>
+          <div class="settings-options" id="fontSizeOptions">
+            <button class="settings-option" data-size="medium">適中</button>
+            <button class="settings-option active" data-size="large">大</button>
+            <button class="settings-option" data-size="xlarge">超大</button>
+          </div>
+        </div>
+        <div class="settings-group">
+          <label class="settings-label">色彩風格</label>
+          <div class="theme-grid" id="themeOptions">
+            <button class="theme-card active" data-theme="warm">
+              <div class="theme-preview">
+                <span class="tp-bar" style="background:#5C3D2E"></span>
+                <span class="tp-bar" style="background:#F5E6D3"></span>
+                <span class="tp-bar" style="background:#D4A574"></span>
+                <span class="tp-bar" style="background:#E8976B"></span>
+              </div>
+              <span class="theme-name">暖棕奶茶</span>
+            </button>
+            <button class="theme-card" data-theme="ocean">
+              <div class="theme-preview">
+                <span class="tp-bar" style="background:#1B3A4B"></span>
+                <span class="tp-bar" style="background:#E8ECF1"></span>
+                <span class="tp-bar" style="background:#5B7FA5"></span>
+                <span class="tp-bar" style="background:#4A90D9"></span>
+              </div>
+              <span class="theme-name">冷靜海洋</span>
+            </button>
+            <button class="theme-card" data-theme="forest">
+              <div class="theme-preview">
+                <span class="tp-bar" style="background:#2E3D1F"></span>
+                <span class="tp-bar" style="background:#E0EDD3"></span>
+                <span class="tp-bar" style="background:#6B9B5A"></span>
+                <span class="tp-bar" style="background:#8BC34A"></span>
+              </div>
+              <span class="theme-name">森林自然</span>
+            </button>
+            <button class="theme-card" data-theme="sakura">
+              <div class="theme-preview">
+                <span class="tp-bar" style="background:#5C2D33"></span>
+                <span class="tp-bar" style="background:#FFE4E4"></span>
+                <span class="tp-bar" style="background:#D4838A"></span>
+                <span class="tp-bar" style="background:#E8636B"></span>
+              </div>
+              <span class="theme-name">櫻花粉柔</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ===== 視覺特效 ===== -->
+        <div class="settings-group">
+          <label class="settings-label">✨ 視覺特效</label>
+          <div class="fx-grid">
+            <button class="fx-card" data-fx="snow" id="fxSnow">
+              <span class="fx-icon">❄️</span>
+              <span class="fx-name">飄雪</span>
+              <span class="fx-badge" id="fxSnowBadge">關閉</span>
+            </button>
+            <button class="fx-card" data-fx="sakura" id="fxSakura">
+              <span class="fx-icon">🌸</span>
+              <span class="fx-name">櫻花</span>
+              <span class="fx-badge" id="fxSakuraBadge">關閉</span>
+            </button>
+            <button class="fx-card" data-fx="stars" id="fxStars">
+              <span class="fx-icon">⭐</span>
+              <span class="fx-name">星塵</span>
+              <span class="fx-badge" id="fxStarsBadge">關閉</span>
+            </button>
+            <button class="fx-card" data-fx="firework" id="fxFirework">
+              <span class="fx-icon">🎆</span>
+              <span class="fx-name">煙火</span>
+              <span class="fx-badge" id="fxFireworkBadge">關閉</span>
+            </button>
+          </div>
+          <p class="fx-hint">點擊開啟特效，再點一下關閉；切換時自動替換</p>
+        </div>
+
+        <!-- ===== AI 對話設定 ===== -->
+        <div class="settings-group">
+          <label class="settings-label">🤖 AI 對話設定</label>
+          <div class="api-form">
+            <div class="api-field">
+              <label class="api-label">AI 提供商</label>
+              <div class="provider-grid" id="providerGrid">
+                <button class="provider-card active" data-provider="openai">
+                  <span class="provider-icon">🟢</span>
+                  <span class="provider-name">OpenAI<br><small>GPT-4o</small></span>
+                </button>
+                <button class="provider-card" data-provider="gemini">
+                  <span class="provider-icon">🔵</span>
+                  <span class="provider-name">Google<br><small>Gemini 2.0</small></span>
+                </button>
+              </div>
+            </div>
+            <div class="api-field">
+              <label class="api-label">API Key</label>
+              <div class="api-key-row">
+                <input class="api-input" id="apiKey" type="password"
+                  placeholder="貼上你的 API Key..." />
+                <button class="api-eye-btn" id="apiKeyToggle" title="顯示/隱藏">👁</button>
+              </div>
+            </div>
+            <div class="api-actions">
+              <button class="api-save-btn" id="apiSaveBtn" style="flex:1">💾 儲存並開啟對話</button>
+            </div>
+            <div class="api-status" id="apiStatus"></div>
+            <p style="font-size:11px;color:var(--color-text-muted);margin-top:6px;line-height:1.6">
+              API Key 僅存在你的瀏覽器，不會上傳任何伺服器。
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Mobile Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Content Area -->
+    <main class="content" id="content">
+      <div class="content-inner" id="contentInner">
+        <div class="welcome-screen">
+          <h2>歡迎來到 HermesAgent 教學中心</h2>
+          <p>請從左側目錄選擇章節開始閱讀</p>
+          <p class="keyboard-hint">
+            <kbd>←</kbd> <kbd>→</kbd> 鍵盤切換章節
+          </p>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <!-- Layer 1: Author -->
+    <div class="footer-author">
+      <div class="footer-inner">
+        <div class="author-card">
+          <div class="author-info">
+            <h3>👨‍🏫 曾慶良 主任（阿亮老師）</h3>
+            <div class="author-positions">
+              <span class="position-tag">新興科技推廣中心主任</span>
+              <span class="position-tag">教育部學科中心研究教師</span>
+            </div>
+            <div class="author-awards">
+              <h4>🏆 獲獎紀錄</h4>
+              <ul>
+                <li>2025年 SETEAM教學專業講師認證</li>
+                <li>2024年 教育部人工智慧講師認證</li>
+                <li>2022、2023年 指導學生XR專題競賽特優</li>
+                <li>2022年 VR教材開發教師組特優</li>
+                <li>2019年 百大資訊人才獎</li>
+                <li>2018、2019年 親子天下創新100教師</li>
+                <li>2018年 臺北市特殊優良教師</li>
+                <li>2017年 教育部行動學習優等</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Layer 2: Social Links -->
+    <div class="footer-links">
+      <div class="footer-inner">
+        <a href="https://www.youtube.com/@Liang-yt02" target="_blank" rel="noopener" class="social-btn youtube">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23 7s-.3-2-1.2-2.8c-1.1-1.2-2.4-1.2-3-1.3C16.2 2.8 12 2.8 12 2.8s-4.2 0-6.8.1c-.6.1-1.9.1-3 1.3C1.3 5 1 7 1 7S.7 9.1.7 11.2v2c0 2.1.3 4.2.3 4.2s.3 2 1.2 2.8c1.1 1.2 2.6 1.1 3.3 1.2C7.2 21.6 12 21.6 12 21.6s4.2 0 6.8-.3c.6-.1 1.9-.1 3-1.3.9-.8 1.2-2.8 1.2-2.8s.3-2.1.3-4.2v-2C23.3 9.1 23 7 23 7zM9.7 15.5V8.4l8.1 3.6-8.1 3.5z"/></svg>
+          YouTube @Liang-yt02
+        </a>
+        <a href="https://www.facebook.com/groups/2754139931432955" target="_blank" rel="noopener" class="social-btn facebook">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          3A科技研究社
+        </a>
+        <a href="mailto:3a01chatgpt@gmail.com" class="social-btn email">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          3a01chatgpt@gmail.com
+        </a>
+        <a href="https://www.tenlong.com.tw/products/9786264144803" target="_blank" rel="noopener" class="social-btn" style="background:#D4A574">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          購買書籍
+        </a>
+      </div>
+    </div>
+
+    <!-- Layer 3: License -->
+    <div class="footer-license">
+      <div class="footer-inner">
+        <p>© 2026 曾慶良（阿亮老師）版權所有 | 本教學網站僅供課程學員個人學習使用</p>
+        <p class="license-detail">HermesAgent 本體：MIT License by NousResearch | github.com/NousResearch/hermes-agent</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll to Top -->
+  <button class="scroll-top" id="scrollTop" title="回到頂部">↑</button>
+
+  <!-- ===== 浮動 AI 聊天視窗 ===== -->
+  <button class="chat-fab" id="chatFab" title="開啟 AI 對話">
+    <span class="chat-fab-icon">🤖</span>
+    <span class="chat-fab-label">AI 對話</span>
+  </button>
+
+  <div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <span class="chat-header-icon">🦞🪽</span>
+        <div>
+          <div class="chat-header-title">愛馬仕 AI 助理</div>
+          <div class="chat-header-sub" id="chatProviderLabel">請先在設定面板輸入 API Key</div>
+        </div>
+      </div>
+      <div class="chat-header-btns">
+        <button class="chat-clear-btn" id="chatClearBtn" title="清除對話">🗑</button>
+        <button class="chat-close-btn" id="chatCloseBtn" title="關閉">✕</button>
+      </div>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-msg assistant">
+        <div class="chat-bubble">你好！我是愛馬仕龍蝦 AI 助理 🦞🪽<br>請先在左側設定面板選擇 AI 提供商並輸入 API Key，就可以開始對話！</div>
+      </div>
+    </div>
+    <div class="chat-input-area">
+      <textarea class="chat-input" id="chatInput" placeholder="輸入訊息... (Enter 送出，Shift+Enter 換行)" rows="1"></textarea>
+      <button class="chat-send-btn" id="chatSendBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="data/units.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/powershell.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/json.min.js"></script>
+  <script src="script.js"></script>
+  <script src="fx.js"></script>
+  <script src="chat.js"></script>
+</body>
+</html>
