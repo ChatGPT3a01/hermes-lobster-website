@@ -47,7 +47,7 @@
 | 模型 | 免費額度（每分鐘）|
 |------|----------------|
 | gemini-3-flash-preview | 15 次請求 / 分鐘 |
-| gemini-3-pro-preview | 2 次請求 / 分鐘 |
+| gemini-3.1-pro-preview | 2 次請求 / 分鐘 |
 
 > 一般個人使用完全夠用！
 
@@ -116,7 +116,7 @@ hermes gateway restart
 | 模型 | 免費 | 速度 | 能力 | 建議用途 |
 |------|------|------|------|---------|
 | `gemini-3-flash-preview` | ✅ | ⚡⚡⚡ | 強 | **日常使用推薦（2026 最新）** |
-| `gemini-3-pro-preview` | ✅ (限量) | ⚡⚡ | 最強 | 複雜推理/旗艦任務 |
+| `gemini-3.1-pro-preview` | ✅ (限量) | ⚡⚡ | 最強 | 複雜推理/旗艦任務 |
 
 > [!TIP]
 > 建議先用 `gemini-3-flash-preview`，速度快又免費。有需要更強的推理再換 pro。

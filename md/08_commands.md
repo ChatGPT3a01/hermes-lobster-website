@@ -25,6 +25,10 @@
 | `hermes --version` | 查看版本號 |
 | `hermes update` | 更新到最新版本 |
 | `hermes chat` | 終端機直接對話模式 |
+| `hermes uninstall` | 解除安裝（保留 `~/.hermes/` 個人設定）|
+
+> [!TIP]
+> **`hermes uninstall` 不會刪你的 API Key 與記憶**：它只清除 `%LOCALAPPDATA%\hermes\`（基礎設施）與系統 PATH，`%USERPROFILE%\.hermes\` 完整保留。要徹底重來請手動刪該資料夾。
 
 ### 設定管理
 

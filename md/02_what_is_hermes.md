@@ -42,6 +42,21 @@
 
 ---
 
+## 官方原生支援的對話介面
+
+| 介面 | 來源 | 是否需要 WSL2 |
+|------|------|--------------|
+| 🖥️ CLI / 📺 TUI | 官方原生 | ❌ |
+| ✈️ Telegram | 官方原生 | ❌ |
+| 🐦 Discord | 官方原生 | ❌ |
+| 💼 Slack | 官方原生 | ❌ |
+| 📱 WhatsApp | 官方原生 | ❌ |
+| 🌐 瀏覽器工具 / MCP 伺服器 / 本地模型 | 官方原生 | ❌ |
+| 📊 Web 儀表板 | 官方原生 | ⚠️ **需要 WSL2** |
+| 💚 **LINE** | **⭐ 阿亮老師獨家加值（Node.js Bridge + ngrok）** | ❌ |
+
+---
+
 ## 支援的 AI 大腦
 
 HermesAgent 使用 **OpenAI 相容 API**，可以接入多種 AI 模型：
@@ -68,7 +83,12 @@ HermesAgent 使用 **OpenAI 相容 API**，可以接入多種 AI 模型：
 HermesAgent 以「Gateway」模式運行，提供：
 - **OpenAI 相容 REST API**（Port 8642）
 - 支援 Telegram Polling 自動接收訊息
-- 支援 LINE Webhook（透過 Bridge 轉接）
+- 支援 LINE Webhook（**透過阿亮老師獨家加值的 Bridge 轉接**）
+
+> [!IMPORTANT]
+> **⭐ LINE Bridge 是阿亮老師獨家加值！**  
+> HermesAgent 官方原生支援的是 **Telegram、Discord、Slack、WhatsApp**，**並沒有 LINE**。  
+> 因為台灣使用者剛需 LINE Bot，所以阿亮老師額外開發了 **Node.js LINE Bridge + ngrok 整合**，讓 HermesAgent 能對接 LINE 官方帳號 — 這是本安裝精靈最重要的加值之一。
 
 ### 技能系統（Skills）
 

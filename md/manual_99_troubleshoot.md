@@ -142,9 +142,36 @@ Get-ChildItem -Force bridge\ | Where-Object { $_.Name -eq '.env' }
 
 ---
 
+## 【Telegram / Discord 圖影傳送】
+
+### Q15. 第一次 Bot 回傳圖片或影片時路徑錯誤
+
+**症狀**：用 Telegram 或 Discord 對 Bot 說「拍張照給我」「給我看那個影片」，第一次 Bot 會找不到檔案，或回傳一個怪怪的相對路徑。
+
+**原因**：HermesAgent 的記憶系統剛建立時，**還沒學會 Windows 的路徑格式**（例如該用 `%USERPROFILE%\.hermes\` 還是 POSIX 風格）。Agent 第一次嘗試送檔案時容易猜錯位置。
+
+**修（其實不用修）**：
+
+```
+✅ 第一次失敗 → Agent 會記住正確路徑 → 第二次以後就自動對了
+```
+
+**這是 Early Beta 的已知行為，不是 bug，記憶更新後會自動解決**。要加速：
+
+```
+1. 第一次失敗時，明確告訴 Bot：「圖片要從 C:\Users\你\Pictures\ 抓」
+2. 或執行一次 hermes doctor，確認 .hermes 路徑無誤
+3. 之後再試，記憶就會把正確路徑寫進去
+```
+
+> [!TIP]
+> 如果一直不會自動修正，到 `%USERPROFILE%\.hermes\` 找 memory 檔案，把錯誤的路徑記憶手動清掉就好。
+
+---
+
 ## 【Skill 階段】
 
-### Q15. `skill-vetter-v2 invalid YAML`
+### Q16. `skill-vetter-v2 invalid YAML`
 
 **原因**：該 skill 的 frontmatter 結尾是 `---------`（9 個 dash）。
 

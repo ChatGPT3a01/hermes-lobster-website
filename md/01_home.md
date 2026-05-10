@@ -44,9 +44,25 @@ HermesAgent 是 [NousResearch](https://nousresearch.com) 開發的通用型 AI A
 
 ## 快速開始
 
+### ⚡ 一行指令背後的 10 步自動化
+
+過去要打十多個指令、檢查一堆錯誤的繁瑣安裝流程，現在被官方濃縮成**一行 PowerShell 指令**：
+
+```powershell
+irm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.ps1 | iex
+```
+
+這一行背後會自動跑完 **10 步**：
+**uv → Python 3.11 → Node.js 22 → Git → 複製倉庫 → 相依套件 → 訊息 SDK → Bash PATH → 系統 PATH → 設定精靈**
+
+> [!TIP]
+> 詳細 10 步流程說明、可選旗標、資料目錄差異請見「Windows 安裝教學」頁。
+
 ### 🪟 Windows 一鍵安裝精靈（推薦新手）
 
 > ⬇️ **[點我下載 Windows 一鍵安裝精靈（ZIP）](HermesAgent-Installer.zip)**
+
+阿亮老師的安裝精靈在官方 10 步基礎上，**額外加上 LINE Bridge（官方原生不支援）+ Telegram 引導 + ngrok 自動設定 + Windows 已知 bug 修復**。
 
 1. 下載並解壓縮安裝精靈
 2. 對 `go.bat` 按右鍵 → **以系統管理員身分執行**
