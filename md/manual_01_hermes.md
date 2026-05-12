@@ -172,25 +172,73 @@ explorer "$env:USERPROFILE\.hermes"        # 使用者資料（持久）
 
 ---
 
-## 1-6. 進階：常用啟動指令
+## 1-6. 下次開機怎麼啟動？（很多學員問！）
 
-之後你會常用這些，先記在這裡，不用現在跑：
+裝完之後**關機重開**，明天又要用怎麼辦？答案分兩種情境：
+
+### 情境 A：只用 Telegram（最簡單）
+
+開 PowerShell，跑這一行就好：
 
 ```powershell
-# 啟動 CLI 對話
-hermes chat
-
-# 啟動互動式 TUI 介面
-hermes --tui
-
-# 啟動 / 停止 Gateway（訊息閘道）
 hermes gateway start
-hermes gateway stop
-hermes gateway status
-hermes gateway restart
+```
 
-# 設定登入時自動啟動 Gateway（用 Windows 排程工作）
+看到 `Gateway started on port 8642` 就成功，去 Telegram 直接傳訊息給 Bot 即可。Gateway 是**背景模式**，PowerShell 視窗你關了也沒關係，Bot 還會繼續工作。
+
+### 情境 B：用 LINE Bot（要開 3 個視窗）
+
+每次都要按順序開：
+
+```powershell
+# 視窗 1（Gateway）
+hermes gateway start
+
+# 視窗 2（LINE Bridge）
+cd $env:USERPROFILE\HermesAgent一鍵自動安裝程式\bridge
+node line-bridge.js
+
+# 視窗 3（ngrok 隧道）
+ngrok http 3000
+```
+
+> [!WARNING]
+> 免費版 ngrok 每次重啟 URL 都會變，要回 LINE Developers Console 更新 Webhook URL（記得結尾加 `/webhook`）。
+
+### 想完全免動手？
+
+設定 Gateway 開機自動啟動：
+
+```powershell
 hermes gateway install
+```
+
+之後開電腦時 Windows 排程工作會自動把 Gateway 拉起來（LINE Bridge + ngrok 還是要手動，除非自己寫 `.bat` 丟到 `shell:startup`）。
+
+> [!TIP]
+> 想看完整的「日常啟動標準流程」（含自動化、ngrok 固定網域）？請看左側 **▶️ 啟動指南** 章節。
+
+---
+
+## 1-7. 進階：常用管理指令
+
+```powershell
+# 對話 / 介面
+hermes chat              # CLI 對話
+hermes --tui             # 互動式 TUI 介面
+
+# Gateway 管理
+hermes gateway start     # 啟動（背景）
+hermes gateway stop      # 停止
+hermes gateway restart   # 重啟
+hermes gateway status    # 看狀態
+hermes gateway install   # 設成開機自動啟動
+hermes gateway uninstall # 移除自動啟動
+
+# 環境
+hermes doctor            # 健診
+hermes setup             # 互動式重新設定
+hermes --version         # 版本資訊
 ```
 
 ---
