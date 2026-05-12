@@ -5,12 +5,14 @@ data/units_from_other_pc.js
 og-image.jpg
 
 # 大型 ZIP（不追蹤）
+*.zip
+
 # 安裝精靈 ZIP 例外追蹤（小檔，需同步）
 !HermesAgent-Installer.zip
 !ClaudeCode-Installer.zip
 !CodexCLI-Installer.zip
 !HermesLobster-SKILL.zip
-*.zip
+!installers/skills/*.zip
 
 # OS
 .DS_Store

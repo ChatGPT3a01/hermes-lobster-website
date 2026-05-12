@@ -244,6 +244,15 @@ UNITS = [
         'parent':     'platform-group',
         'isGroup':    False,
     },
+    {
+        'id':         'skill-demo',
+        'folder':     'md',
+        'file':       '14_skill_demo.md',
+        'title':      'SKILL 安裝教學示範',
+        'shortTitle': '🎨 SKILL 安裝示範',
+        'parent':     None,
+        'isGroup':    False,
+    },
 
     # ── 三強 AI CLI 工具 ────────────────────────────────────────
     {
