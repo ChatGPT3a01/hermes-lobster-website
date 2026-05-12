@@ -29,17 +29,16 @@
 
 ## 時間估計
 
-| 階段 | 時間 |
-|------|------|
-| 前置工具安裝（Node、Git、Python、ngrok）| 20 分 |
-| Step 1：HermesAgent 本體 | 15 分 |
-| Step 2：申請 LINE Bot | 10 分 |
-| Step 3：部署 LINE Bridge | 10 分 |
-| Step 4：ngrok 隧道 | 10 分 |
-| Step 5：啟用 ChatGPT Plus 訂閱模式 | 10 分 |
-| Step 6：記憶／副人格／自拍 | 30 分 |
-| Step 7：安裝 75 個 Skill | 15 分 |
-| **總計** | **約 2 小時** |
+| 階段 | 時間 | 備註 |
+|------|------|------|
+| Step 1：HermesAgent 本體 | 10 分 | 官方一行指令自動裝 Python/Node/Git，免前置 |
+| Step 2：申請 LINE Bot | 10 分 | 純 LINE Console 點按 |
+| Step 3：部署 LINE Bridge | 10 分 | Node.js 端 |
+| Step 4：ngrok 隧道 | 10 分 | 含 ngrok 註冊 |
+| Step 5：啟用 ChatGPT Plus 訂閱模式 | 10 分 | Codex OAuth |
+| Step 6：記憶／副人格／自拍 | 30 分 | 加值內容 |
+| Step 7：安裝 75 個 Skill | 15 分 | Skill 包匯入 |
+| **總計** | **約 90 分鐘** | 比舊版省 30 分（前置工具自動化） |
 
 > [!TIP]
 > 建議分 2 天做：第一天 Step 1-4（能在 LINE 跟 Bot 對話），第二天 Step 5-7（加值功能）。
@@ -73,11 +72,14 @@ LINE Platform
 
 請確認你有：
 
-- [ ] Windows 10/11 64-bit 電腦（建議 16GB RAM、50GB 可用磁碟）
-- [ ] 系統管理員權限
-- [ ] 穩定網路
+- [ ] Windows 10/11 64-bit 電腦（建議 16 GB RAM、50 GB 可用磁碟）
+- [ ] 穩定網路（要從 GitHub 抓 ~200 MB）
 - [ ] LINE 個人帳號（加 Bot 為好友用）
 - [ ] **ChatGPT Plus 或 Pro 訂閱**（Step 5 必備；若沒有，最後會教你改用 OpenAI API Key 或免費 Gemini）
+
+> [!NOTE]
+> **不需要事先裝 Python、Node.js、Git** — 官方一行指令會自動處理。
+> **不需要系統管理員權限** — 官方安裝器設計成走使用者層級。
 
 > [!WARNING]
 > 本教學針對 **Windows 11** 撰寫。Mac 使用者請參考「Mac 安裝教學」章節，指令語法略有不同。

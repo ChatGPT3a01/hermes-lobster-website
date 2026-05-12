@@ -1,218 +1,237 @@
 # 🛠️ Step 1：手動安裝 HermesAgent 本體
 
-> 預估時間：15 分鐘
-> 目標：讓電腦上的 PowerShell 可以執行 `hermes --version` 並回傳版本號
+> 預估時間：10 分鐘
+> 目標：讓 PowerShell 可以執行 `hermes --version` 並回傳版本號
 
 ---
 
----
+## 開場：為什麼選 Windows 原生路線
 
-## ⚠️ 0-0. 官方路線 vs 本教學路線
+NousResearch 官方在 2026 年初已正式為 Windows 推出 **Native Beta** 支援，並寫了完整的 [Windows Native 文件](https://hermes-agent.nousresearch.com/docs/user-guide/windows-native)。本教學完全按官方文件走，不用 WSL2、不用 Docker。
 
-NousResearch 官方 README 說法：
+**Windows 原生有什麼好？**
 
-> **Windows:** Native Windows is not supported. Please install WSL2 and run the command above.
+- ✅ Windows 上裝的 MCP 工具（如 Notion、Google Calendar、PowerShell 控制檯）**直接無痛調用**，不必再翻牆進 WSL
+- ✅ 檔案路徑就是 `C:\Users\你\.hermes\`，記事本／檔案總管打開就能改
+- ✅ 不必為一個 AI 開一座 Linux 虛擬機，少吃 4-8 GB RAM
+- ✅ 阿亮老師實測：**Intel 6700 + RTX 3060 + 64 GB RAM 可同時養 3 隻 OpenClaw + 3 隻 Hermes**，沒卡
 
-但實際上 `scripts/install.ps1` 存在（35 KB）、社群廣泛使用，阿亮老師的一鍵精靈也用它。**本 Step 1 走 Windows 原生路線**（install.ps1），理由：
-- 少一層 WSL2 虛擬化，效能較好
-- 檔案直接在 `%LOCALAPPDATA%\hermes\`、`%USERPROFILE%\.hermes\`，好管理
-- 實測：我們整套（含 LINE Bridge、Codex 訂閱、fal.ai 自拍）都跑得起來
+**Windows 原生的限制（先打預防針）：**
 
-**如果你想走官方 WSL2 路線**：
-1. 先 `wsl --install`（要重開機）
-2. 之後在 Ubuntu 終端機跑 `curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash`
-3. 之後 Step 2-7 的指令邏輯相同，但所有檔案路徑改為 Linux 格式（`~/.hermes/` 等）
+| 限制 | 影響 |
+|------|------|
+| 🔇 語音「聽」與「說」 | Hermes 的原生語音套件是 Linux 用的（espeak / piper），Windows 上要自己換成 Windows SAPI 或 PowerShell Speech |
+| 📊 儀表板嵌入式終端 | 儀表板 Web UI 裡的「Terminal」分頁不能用（需要 POSIX PTY），但 Telegram/LINE/CLI 模式完全不受影響 |
+| 🐚 部分 Skill 假設 Linux 環境 | 少數 Skill 內含 bash 腳本，Windows 上要用 Git Bash 跑（安裝器會自動裝便攜 Git Bash） |
 
----
+> [!TIP]
+> 上面這些限制 99% 用 LINE / Telegram 教學的場景**完全用不到**。要等到你想做語音 Bot 或想用儀表板裡的終端機，才會碰到。屆時請參考本章最後的「Windows 限制完整章節」。
 
-## 1-0. 前置工具檢查
-
-按 <kbd>Win</kbd>+<kbd>R</kbd>，輸入 `powershell` 開啟 PowerShell（**不要**用系統管理員身分）。
-
-貼以下指令檢查工具是否已裝：
-
-```powershell
-node --version
-npm --version
-git --version
-python --version
-```
-
-預期輸出：
-```
-v20.0.0 以上
-10.0.0 以上
-git version 2.x
-Python 3.11.x     ← 這個關鍵！
-```
-
-### 1-0-1. 如果缺 Node.js
-
-到 <https://nodejs.org> 下載 **LTS 版**（目前 20.x 或更新），安裝完畢後**關閉所有 PowerShell** 重開。
-
-### 1-0-2. 如果缺 Git
-
-```powershell
-winget install Git.Git --silent --accept-package-agreements
-```
-
-### 1-0-3. ⚠️ 如果 Python 版本 < 3.11
-
-**這是最常踩的坑！** HermesAgent v0.10 要求 Python **≥ 3.11**。
-
-即使你有 Python 3.10，一樣會失敗。安裝 3.11：
-
-```powershell
-winget install Python.Python.3.11 --silent --accept-package-agreements
-```
-
-裝完後**關閉 PowerShell 重開**，再驗證：
-
-```powershell
-py -3.11 --version
-```
-
-應該看到 `Python 3.11.x`。
+**如果你真的想走 WSL2 官方路線（不推薦給新手）**：
+1. PowerShell 跑 `wsl --install`（要重開機）
+2. 進 Ubuntu 終端機跑：
+   ```bash
+   curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+   ```
+3. 之後 Step 2-7 的概念相同，但路徑改成 Linux 格式（`~/.hermes/`）
 
 ---
 
-## 1-1. 下載官方安裝腳本
+## 1-0. 開工前 30 秒
 
-以系統管理員身分開 PowerShell（按 <kbd>Win</kbd>+<kbd>X</kbd> → Terminal (系統管理員)）。
+**你只要有這個就能裝：**
 
-```powershell
-$ProgressPreference='SilentlyContinue'
-$tmp = "$env:TEMP\hermes-install.ps1"
-Invoke-WebRequest `
-  -Uri 'https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.ps1' `
-  -OutFile $tmp -UseBasicParsing
-```
+- ✅ Windows 10/11 64-bit
+- ✅ 穩定網路（要從 GitHub 抓 ~200 MB）
+- ✅ 一個普通的 PowerShell 視窗（**不需要管理員權限**，這是官方安裝器的新設計）
 
----
+**你不用先裝這些**（安裝器會自己處理）：
 
-## 1-2. ⚠️ 關鍵步驟：補上 UTF-8 BOM
+- ❌ 不用先裝 Python（安裝器用 uv 自動裝 3.11）
+- ❌ 不用先裝 Node.js（安裝器自動裝 22）
+- ❌ 不用先裝 Git（安裝器自動裝便攜版）
 
-> [!WARNING]
-> 這步**一定要做**！否則 PowerShell 5.1 會把腳本裡的中文解成 Big5 亂碼，出現一連串 `Unexpected token` 錯誤。
+> [!NOTE]
+> 如果你電腦**已經有** Node.js / Python / Git 也沒關係，安裝器會偵測並重用。不會重複裝。
 
-```powershell
-$b = [System.IO.File]::ReadAllBytes($tmp)
-[System.IO.File]::WriteAllBytes($tmp, [byte[]](0xEF,0xBB,0xBF) + $b)
-```
-
-這指令把檔案最前面加上 3 個位元組 `EF BB BF`（UTF-8 BOM），PowerShell 就知道檔案是 UTF-8 編碼。
+按 <kbd>Win</kbd>+<kbd>R</kbd>，輸入 `powershell` 開啟 PowerShell。
 
 ---
 
-## 1-3. 執行安裝
+## 1-1. 一行指令裝完 HermesAgent
+
+把這一行整段複製、貼進 PowerShell、按 Enter：
 
 ```powershell
-$env:PYTHONUTF8='1'
-& powershell -NoProfile -ExecutionPolicy Bypass -File $tmp -SkipSetup
+irm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.ps1 | iex
 ```
 
-會看到類似這樣的輸出：
+> [!TIP]
+> `irm` 是 `Invoke-RestMethod` 的短名，`iex` 是 `Invoke-Expression` 的短名。整句意思就是「從網址抓腳本→直接執行」。**這跟你 Google 搜「hermes-agent windows install」第一筆官方說法完全一樣**。
+
+按下去之後會自動跑 3-10 分鐘，你不用做任何事。畫面大致長這樣：
 
 ```
 ┌─────────────────────────────────────────────────────────┐
 │             ⚕ Hermes Agent Installer                    │
 └─────────────────────────────────────────────────────────┘
 
-→ Checking for uv package manager...
-✓ uv installed
-→ Checking Python 3.11...
-✓ Python found: Python 3.11.x
-→ Checking Git...
-✓ Git found
-→ Cloning hermes-agent repository...
-→ Creating virtual environment with Python 3.11...
-→ Installing dependencies...    ← 這步最久，約 3-5 分鐘
-✓ All dependencies installed
-✓ hermes command ready
-✓ Created ~/.hermes/.env from template
-✓ Created ~/.hermes/config.yaml from template
+→ Installing uv package manager...                  ✓
+→ Installing Python 3.11 via uv...                  ✓
+→ Installing Node.js 22...                          ✓
+→ Installing portable Git...                        ✓
+→ Cloning hermes-agent repository...                ✓
+→ Creating Python virtual environment...            ✓
+→ Installing dependencies (this may take a while)... ✓   ← 最久一步，2-5 分鐘
+→ Installing messaging SDKs...                      ✓
+→ Adding hermes to PATH...                          ✓
+→ Running hermes setup wizard...
+
 ✓ Installation Complete!
 ```
 
-> [!TIP]
-> `-SkipSetup` 旗標讓它**不跑**最後的互動設定精靈（因為精靈會卡住等使用者輸入）。後續我們會自己設定。
+最後會跳出 `hermes setup` 互動式精靈，要你選 AI 模型、選工具集等。**這裡你可以按 `Ctrl+C` 結束**，因為阿亮老師接下來 Step 5 會教你手動寫 `.env`，更彈性。
 
 ---
 
-## 1-4. ⚠️ 如果你的 Python 是 3.10，這裡會偷跑失敗
+## 1-2. ⚠️ 一定要做：開新的 PowerShell
 
-**症狀**：log 看起來成功但其實套件沒裝進 venv。
+裝完之後，**關掉現在這個 PowerShell**，按 <kbd>Win</kbd>+<kbd>R</kbd> 重新開一個。
 
-**怎麼確認是否踩到**：
-```powershell
-Test-Path "$env:LOCALAPPDATA\hermes\hermes-agent\venv\Scripts\hermes.exe"
-```
-
-如果回 `False` → **踩到了**！修復方式：
-
-```powershell
-# 刪掉舊 venv
-Remove-Item -Recurse -Force "$env:LOCALAPPDATA\hermes\hermes-agent\venv"
-
-# 用 Python 3.11 重建 venv
-Set-Location "$env:LOCALAPPDATA\hermes\hermes-agent"
-uv venv --python 3.11 venv
-
-# 重新安裝 hermes-agent 套件到新 venv
-uv pip install -e . --python venv\Scripts\python.exe
-```
-
-完成後 `hermes.exe` 就會出現。
+> [!WARNING]
+> 為什麼要這樣？安裝器把 `hermes` 指令的路徑（`%LOCALAPPDATA%\hermes\bin`）加到使用者 PATH 環境變數裡，但「**正在開著的 PowerShell**」不會偵測到這個變化，所以一定要關掉、重開。
 
 ---
 
-## 1-5. 驗證安裝
+## 1-3. 驗證安裝成功
+
+在**新開的** PowerShell 跑：
 
 ```powershell
-& "$env:LOCALAPPDATA\hermes\hermes-agent\venv\Scripts\hermes.exe" --version
+hermes --version
 ```
 
-預期：
+預期看到類似這樣：
+
 ```
-Hermes Agent v0.10.0 (2026.x.x)
-Project: C:\Users\<你>\AppData\Local\hermes\hermes-agent
-Python: 3.11.9
-OpenAI SDK: 2.x.x
+Hermes Agent v0.10.x
+Python: 3.11.x
+Project: C:\Users\你的名字\AppData\Local\hermes\hermes-agent
 ```
+
+接著跑健診：
+
+```powershell
+hermes doctor
+```
+
+應該看到一堆 `✓` 綠色打勾。常見的 `⚠` 警告**可以先忽略**（多半是某些 optional skill 還沒設 API key）。
 
 ---
 
-## 1-6. 跑環境診斷
+## 1-4. 認識「兩個資料夾」（重要觀念）
+
+HermesAgent 把資料分散在**兩個位置**，搞混會在你重灌時哭出來：
+
+| 資料夾 | 路徑 | 性質 | 內容 |
+|--------|------|------|------|
+| 🗑️ **基礎設施（可丟）** | `%LOCALAPPDATA%\hermes\` | 重灌會重建 | hermes-agent 程式碼、Python venv、Node modules、便攜 Git |
+| 💾 **使用者資料（要備份）** | `%USERPROFILE%\.hermes\` | 重灌**會保留** | `.env` 設定、API 憑證、技能、對話記憶 |
+
+**用 PowerShell 一行打開：**
 
 ```powershell
-& "$env:LOCALAPPDATA\hermes\hermes-agent\venv\Scripts\hermes.exe" doctor
+explorer "$env:LOCALAPPDATA\hermes"        # 基礎設施（可棄）
+explorer "$env:USERPROFILE\.hermes"        # 使用者資料（持久）
 ```
 
-應該看到大量 `✓` 綠色打勾。常見的「⚠」警告可以先忽略（大多是某些 optional skill 需要 API key）。
-
-如果看到：
-- `✗ hermes command ready` → PATH 沒刷新，重開 PowerShell 再試
-- `✗ Python 3.11` → Python 版本不對，回到 1-0-3
+> [!CAUTION]
+> 想重新安裝？只要刪 `%LOCALAPPDATA%\hermes\` 即可，**`%USERPROFILE%\.hermes\` 千萬別刪**，否則 API Key、記憶、技能全沒。官方 `hermes uninstall` 指令也是這個邏輯。
 
 ---
 
-## 1-7. 建立 .env（如果沒有）
+## 1-5. Windows 與 Linux 的差異速覽
+
+下面這份對照表是官方文件直接抄過來的。**先掃一眼即可**，等你之後真的踩到再回來看細節。
+
+| 功能 | Windows 原生 | WSL2 | 備註 |
+|------|:---:|:---:|------|
+| CLI（`hermes chat`） | ✓ | ✓ | 完全一樣 |
+| TUI 終端介面 | ✓ | ✓ | 完全一樣 |
+| 訊息閘道（Telegram/Discord/LINE） | ✓ | ✓ | 完全一樣 |
+| 排程器 / 工作排程 | ✓ | ✓ | Windows 用 schtasks，Linux 用 systemd |
+| 瀏覽器自動化 | ✓ | ✓ | 完全一樣 |
+| MCP 伺服器 | ✓ | ✓ | **Windows 原生 MCP 工具直接無痛調用** |
+| Ollama / LM Studio 本機模型 | ✓ | ✓ | 完全一樣 |
+| Web 儀表板（會話/作業/指標） | ✓ | ✓ | 完全一樣 |
+| **儀表板嵌入式終端** | **✗** | ✓ | Windows 原生不支援（用其他模式取代） |
+| **語音聽說（espeak/piper）** | **✗** | ✓ | 需自行改寫成 Windows SAPI（見下章） |
+| 開機自動啟動 | ✓ | ✓ | Windows 用 schtasks |
+
+→ 想看「語音改寫指引」？請看本教學最後的 **manual_99_troubleshoot.md → 附錄 C：Linux-only 功能 Windows 改寫指引**。
+
+---
+
+## 1-6. 進階：常用啟動指令
+
+之後你會常用這些，先記在這裡，不用現在跑：
 
 ```powershell
-# 檢查 .env 在不在
-Test-Path "$env:USERPROFILE\.hermes\.env"
+# 啟動 CLI 對話
+hermes chat
 
-# 如果不在，從 template 複製
-Copy-Item "$env:LOCALAPPDATA\hermes\hermes-agent\.env.example" `
-          "$env:USERPROFILE\.hermes\.env"
+# 啟動互動式 TUI 介面
+hermes --tui
+
+# 啟動 / 停止 Gateway（訊息閘道）
+hermes gateway start
+hermes gateway stop
+hermes gateway status
+hermes gateway restart
+
+# 設定登入時自動啟動 Gateway（用 Windows 排程工作）
+hermes gateway install
 ```
-
-之後的設定（Step 5 起）會編輯這個檔。
 
 ---
 
 ## 🎉 Step 1 完成！
 
-你現在有一個可以運作的 HermesAgent 本體。
+你現在有一個可運作的 HermesAgent 本體。**檢查清單**：
 
-**下一步：Step 2「申請 LINE Bot」** — 取得 Channel Secret、Access Token 等 LINE 憑證。
+- [x] `hermes --version` 有版本號
+- [x] `hermes doctor` 一堆綠色 ✓
+- [x] `%USERPROFILE%\.hermes\` 資料夾存在
+- [x] 知道兩個資料夾的差異
+
+**下一步：[Step 2「申請 LINE Bot」](#manual-line)** — 取得 Channel Secret、Access Token 等 LINE 憑證。
+
+---
+
+## 📎 附錄：阿亮老師實測規格參考
+
+學員常問：「我電腦跑得動嗎？」實測結論：
+
+| 規格 | 阿亮老師主機 |
+|------|----------|
+| CPU | Intel Core i7-6700（**2015 年的老 U**） |
+| GPU | NVIDIA RTX 3060（12 GB VRAM） |
+| RAM | 64 GB |
+| 同時跑 | **3 隻 OpenClaw + 3 隻 Hermes**，沒卡 |
+
+> [!TIP]
+> 結論：只要你電腦不比 i7-6700 更差，**16 GB RAM 起跳就能順順跑 1 隻 Hermes**。RAM 是關鍵，CPU 不用太新。
+
+---
+
+## 📎 附錄：常見錯誤快速指引
+
+下面是學員真實踩過的 5 個坑。完整 15 條請見 [manual_99_troubleshoot.md](#manual-troubleshoot)。
+
+| 現象 | 速解 |
+|------|------|
+| `hermes: command not found` | 沒重開 PowerShell。回到 1-2 重做。 |
+| `irm` 跑一半中斷 | 網路問題。重跑那行 `irm \| iex` 即可，安裝器有續跑能力。 |
+| 跑出 14+ 個 `Unexpected token` 紅字 | 你用了 PowerShell 5.1。升級到 PowerShell 7（`winget install Microsoft.PowerShell`），重開後再跑。 |
+| `hermes --version` 出來但 `hermes doctor` 一堆紅 ✗ | 是 optional 工具沒裝（如 Playwright），跑 `npx playwright install chromium` 補上即可。 |
+| 跑完出現「Python 3.11 not found」 | 罕見情況：uv 沒裝成功。手動補 `winget install --id=astral-sh.uv -e` 後重跑 `irm \| iex`。 |

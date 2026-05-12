@@ -5,16 +5,16 @@
 | 項目 | 需求 |
 |------|------|
 | 作業系統 | Windows 10/11（64位元）|
-| 記憶體 | 至少 8 GB RAM（建議 16 GB）|
+| 記憶體 | 至少 8 GB RAM（建議 16 GB 才順）|
 | 磁碟空間 | 至少 5 GB 可用空間 |
 | 網路 | 需要網際網路連線 |
-| 權限 | 需要系統管理員權限 |
+| 權限 | **不需要管理員權限**（官方安裝器新設計）|
 
 > [!TIP]
-> **推薦方法：使用一鍵安裝精靈！** 下方的手動安裝說明僅供參考，一般使用者直接用精靈即可。
+> **推薦方法：用一鍵安裝精靈！** 下方的「方法二：手動安裝」僅供想了解原理的學員參考，一般使用者直接用精靈即可。
 
 > [!IMPORTANT]
-> **好消息**：HermesAgent 已支援 **Windows 原生（Native）Beta**，從此不必再走 WSL2 或 Docker！PowerShell 路徑與編碼都正常運作，爽度超越 WSL。
+> **2026 年好消息**：HermesAgent 已正式支援 **Windows 原生（Native）Beta**，不必再走 WSL2 或 Docker。PowerShell 路徑與編碼都正常運作。詳見官方文件：<https://hermes-agent.nousresearch.com/docs/user-guide/windows-native>
 
 ---
 
@@ -39,10 +39,10 @@ irm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/ins
 | 7 | 💬 **訊息 SDK 自動配置** | Telegram、Discord、Slack、WhatsApp |
 | 8 | 🐚 **Bash PATH 變數** | 設定 Bash 可存取 hermes 指令 |
 | 9 | 🪟 **系統 PATH 更新** | 設定 Windows 全域 hermes 指令 |
-| 10 | 🧙 **啟動設定精靈** | 進入 `hermes onboard` 互動式問答 |
+| 10 | 🧙 **啟動設定精靈** | 進入 `hermes setup` 互動式問答 |
 
 > [!NOTE]
-> **過去要十多個指令、檢查一堆錯誤的安裝流程，現在全部濃縮成一行**。中國網友戲稱「WSL 跟 Docker 又去再就業了」，意思是 Windows 原生終於不再委屈了。
+> **過去要十多個指令、檢查一堆錯誤的安裝流程，現在全部濃縮成一行**。
 
 ---
 
@@ -54,11 +54,11 @@ irm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/ins
 |------|------|------|
 | `-Branch <name>` | 指定 Git 分支（預設 main）| `-Branch dev` |
 | `-NoVenv` | 不建立 Python 虛擬環境 | 已有自己的 venv 時用 |
-| `-SkipSetup` | 跳過 `hermes onboard` 設定精靈 | 想自己手動設定 |
+| `-SkipSetup` | 跳過 `hermes setup` 設定精靈 | 想自己手動設定 |
 | `-HermesHome <path>` | 自訂 `.hermes` 設定目錄 | `-HermesHome D:\hermes` |
 | `-InstallDir <path>` | 自訂安裝目錄 | `-InstallDir D:\Apps\hermes` |
 
-旗標用法（記得 `iex` 改成括號 + 引數）：
+旗標用法（注意：要從 `irm | iex` 改成 scriptblock 形式）：
 
 ```powershell
 & ([scriptblock]::Create((irm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.ps1))) -SkipSetup -InstallDir "D:\hermes"
@@ -123,48 +123,54 @@ C:\Users\你的名字\HermesAgent安裝程式\
 
 ---
 
-## 方法二：手動安裝（進階）
+## 方法二：手動安裝（進階／教學用）
 
-如果你想自己動手安裝，請按以下步驟：
+> [!TIP]
+> **完整逐步手動教學**請看 **📘 手動安裝教學** 章節的 **Step 1：手動安裝 HermesAgent 本體**。下面只是濃縮版。
 
-### 安裝 HermesAgent
+### Step 1：開 PowerShell
 
-以系統管理員身分開啟 **PowerShell**，執行：
+按 <kbd>Win</kbd>+<kbd>R</kbd> 輸入 `powershell`（**不必管理員權限**）。
+
+### Step 2：跑官方一行指令
 
 ```powershell
 irm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.ps1 | iex
 ```
 
-安裝完成後，關閉 PowerShell，重新開啟新的 PowerShell 視窗（讓 PATH 生效）。
+跑 3-10 分鐘。最後跳出 `hermes setup` 互動精靈時，可以按 `Ctrl+C` 結束（之後手動設 `.env` 更彈性）。
 
-### 設定環境變數
+### Step 3：關掉 PowerShell，重新開一個
 
-```powershell
-[System.Environment]::SetEnvironmentVariable('PYTHONUTF8', '1', 'User')
-```
+> [!WARNING]
+> **這一步一定要做**！PATH 環境變數要重開視窗才會生效。
 
-### 驗證安裝
+### Step 4：驗證
 
 ```powershell
 hermes --version
 hermes doctor
 ```
 
-### 初始化設定
+看到版本號與一堆綠色 ✓ 就成功。
+
+### Step 5：初始化設定（可選）
 
 ```powershell
-hermes onboard
+hermes setup
 ```
 
-按照提示選擇 AI 大腦並完成設定。
+按照提示選擇 AI 大腦並完成設定。**或者**直接編輯 `%USERPROFILE%\.hermes\.env` 自己填。
 
-### 啟動 Gateway
+### Step 6：啟動 Gateway
 
 ```powershell
-hermes gateway run
+hermes gateway start            # 背景啟動
+hermes gateway status           # 看狀態
+hermes gateway install          # 設成開機自動啟動（用 Windows 排程工作）
 ```
 
-這會在前景啟動 Gateway，監聽 Port **8642**。
+Gateway 預設監聽 Port **8642**。
 
 ---
 
@@ -203,83 +209,64 @@ hermes uninstall
 
 會清除：
 - `%LOCALAPPDATA%\hermes\`（基礎設施）
-- 系統 PATH 中的 hermes 路徑
+- 排程工作（schtasks）
+- 啟動資料夾快捷方式
+- 使用者 PATH 中的 hermes 路徑
 
 > [!NOTE]
 > `hermes uninstall` **不會**刪除 `%USERPROFILE%\.hermes\`（你的設定與 API Key），重灌後資料還在。要徹底清乾淨請手動刪該資料夾。
 
 ---
 
-## Windows 已知問題與修復
+## 支援平台與 Windows 限制速覽
 
-### 問題：`hermes gateway status` 報錯
+HermesAgent 在 Windows Native 上的支援狀況：
 
-**症狀：** 執行 `hermes gateway status` 時出現 `OSError` 錯誤
-
-**原因：** HermesAgent 的 `status.py` 在 Windows 上缺少 `OSError` 例外處理
-
-**修復方法（自動）：** 安裝精靈會自動修復此問題
-
-**修復方法（手動）：**
-
-找到並編輯以下檔案：
-```
-%LOCALAPPDATA%\hermes\hermes-agent\venv\Lib\site-packages\hermes_agent\gateway\status.py
-```
-
-找到這行：
-```python
-except (ProcessLookupError, PermissionError):
-```
-
-改為：
-```python
-except (ProcessLookupError, PermissionError, OSError):
-```
-
----
-
-### 問題：中文顯示亂碼
-
-**解決：** 設定環境變數 `PYTHONUTF8=1`
-
-```powershell
-[System.Environment]::SetEnvironmentVariable('PYTHONUTF8', '1', 'User')
-```
-
----
-
-## ⚠️ Early Beta 注意事項
-
-> [!CAUTION]
-> Windows Native 目前是 **Early Beta**，使用前請知悉以下限制：
-
-| 限制 | 影響 | 應對方式 |
-|------|------|---------|
-| 🔄 **子程序處理可能不穩** | Gateway 偶爾被中斷 | 使用 `hermes gateway run` 前景模式較穩定 |
-| 📁 **路徑差異需注意** | 反斜線 `\` 與正斜線 `/` 混用會出錯 | 設定檔路徑統一用反斜線 |
-| 🔤 **非 ASCII 主控台輸出有問題** | 中文/Emoji 可能亂碼 | 設定 `PYTHONUTF8=1`、`chcp 65001` |
-| 🌐 **Web 終端面板需 WSL2** | 純 Windows 原生環境無法使用 Web Dashboard | 需要 Web 介面請另外裝 WSL2 |
+| 介面 | Windows 原生 | 備註 |
+|------|:---:|------|
+| 🖥️ **CLI**（`hermes chat`） | ✓ | 完整支援 |
+| 📺 **TUI** 終端介面 | ✓ | 完整支援 |
+| ✈️ **Telegram** | ✓ | 官方原生 |
+| 🐦 **Discord** | ✓ | 官方原生 |
+| 💼 **Slack** | ✓ | 官方原生 |
+| 📱 **WhatsApp** | ✓ | 官方原生 |
+| 🌐 **瀏覽器自動化** | ✓ | 完整支援 |
+| 🔌 **MCP 伺服器** | ✓ | **Windows 原生 MCP 工具直接無痛調用** |
+| 🧠 **Ollama / 本地模型** | ✓ | 完整支援 |
+| 📊 **Web 儀表板** | ✓（部分） | 主功能可用，**唯獨 `/chat` 嵌入式終端不能用** |
+| 🔇 **語音聽說** | ✗ | 原生套件是 Linux 用，需自己改 Windows 版（見疑難排解附錄 C）|
+| 💚 **LINE**（阿亮獨家加值）| ✓ | Node.js Bridge + ngrok 串接 |
 
 > [!TIP]
-> 上述問題在 Telegram/LINE/CLI/TUI 模式下都不影響日常使用，主要受影響的是 Web Dashboard。教學用途完全夠用。
+> 教學情境（LINE/Telegram Bot 對話 + 副人格 + 自拍生圖）**完全用得到**。要等到你想做語音 Bot 或想用儀表板的內嵌終端，才會碰到限制。
 
 ---
 
-## Gateway 管理
+## 常見錯誤速查
+
+| 現象 | 速解 |
+|------|------|
+| `hermes: command not found` | 沒重開 PowerShell。關掉重開即可。 |
+| `irm` 跑出 14+ 個紅字 `Unexpected token` | 你用 PowerShell 5.1。`winget install Microsoft.PowerShell` 升級到 PS7。 |
+| `hermes gateway status` 報 OSError | v0.10 之前的舊版本 bug，跑 `hermes uninstall` 後重裝即可。 |
+| 中文／Emoji 亂碼 | 用 Windows Terminal（Microsoft Store 免費裝）取代 cmd.exe |
+| Gateway 開機沒自動跑 | 用 `$env:HERMES_GATEWAY_FORCE_STARTUP='1'` 後重新 `hermes gateway install` |
+
+> 完整 20+ 條疑難排解請看 **📘 手動安裝教學 → 🐛 常見錯誤與排解**。
+
+---
+
+## Gateway 管理速查
 
 ```powershell
-# 啟動（前景，Windows 原生）
-hermes gateway run
+hermes gateway start             # 啟動（背景）
+hermes gateway stop              # 停止
+hermes gateway restart           # 重啟
+hermes gateway status            # 看狀態
+hermes gateway install           # 設定登入時自動啟動
+hermes gateway uninstall         # 移除自動啟動
 
-# 查看狀態
-hermes gateway status
-
-# 停止
-hermes gateway stop
-
-# 診斷
-hermes doctor
+hermes doctor                    # 完整環境健診
 ```
 
 ---
@@ -301,29 +288,6 @@ notepad "$env:USERPROFILE\.hermes\.env"
 ```
 
 （`%LOCALAPPDATA%\hermes\` 只是安裝 repo + venv 的位置，不是 runtime 設定）
-
----
-
-## 支援平台一覽
-
-HermesAgent 官方原生支援以下介面：
-
-| 介面 | 用途 | 是否需要 WSL2 |
-|------|------|--------------|
-| 🖥️ **CLI** | 終端機指令 | ❌ |
-| 📺 **TUI** | 終端機 UI 模式 | ❌ |
-| ✈️ **Telegram** | 官方原生支援 | ❌ |
-| 🐦 **Discord** | 官方原生支援 | ❌ |
-| 💼 **Slack** | 官方原生支援 | ❌ |
-| 📱 **WhatsApp** | 官方原生支援 | ❌ |
-| 🌐 **瀏覽器工具** | MCP 控制瀏覽器 | ❌ |
-| 🔌 **MCP 伺服器** | 工具擴充 | ❌ |
-| 🧠 **本地模型** | Ollama / Gemma | ❌ |
-| 📊 **Web 儀表板** | Web 終端面板 | ⚠️ **需要** |
-| 💚 **LINE**（阿亮獨家加值）| Bridge + ngrok 串接 | ❌ |
-
-> [!NOTE]
-> 本安裝精靈額外提供 **LINE Bridge**（Node.js + ngrok），讓 HermesAgent 能對接 LINE Bot — 這是台灣使用者的剛需，但官方原生不支援。
 
 ---
 
