@@ -114,6 +114,17 @@ C:\Users\你的名字\HermesAgent安裝程式\
 | D - Nous Portal | 免費試用 MiMo 模型 | 想先試用 |
 | E - 自訂 API Key | 輸入 OpenRouter 等 API Key | 有 API Key |
 
+> [!CAUTION]
+> **PowerShell 視窗無法用 `Ctrl + V` 貼上 API Key！** 這是 Windows 內建 PowerShell（conhost）的老問題，不是你電腦壞掉。請用下面任一方式貼上：
+>
+> | 貼上方法 | 適用環境 |
+> |---------|---------|
+> | **滑鼠右鍵點一下** | ✅ 最簡單，所有 PowerShell 視窗都可以（右鍵 = 貼上）|
+> | **`Shift + Insert`** | ✅ 跨平台通用貼上鍵，PowerShell / cmd / Linux 都通 |
+> | **`Ctrl + Shift + V`** | 僅限 Windows Terminal（`wt.exe`）/ PowerShell 7（`pwsh`）|
+>
+> 貼上後若覺得螢幕沒反應，**直接按 Enter 試試** — 有些版本貼上後內容是隱藏的（防止旁人偷看），其實已經貼進去了。
+
 ### 步驟 6：設定通訊平台
 
 選擇 **Telegram** 或 **LINE**（或兩者都設定）
