@@ -59,6 +59,15 @@ UNITS = [
         'isGroup':    False,
     },
     {
+        'id':         'hermes-helper',
+        'folder':     'md',
+        'file':       '04d_hermes_helper.md',
+        'title':      '開啟／修復助手 V2.0 完整教學',
+        'shortTitle': '🦞 修復助手教學',
+        'parent':     None,
+        'isGroup':    False,
+    },
+    {
         'id':         'generators',
         'folder':     'md',
         'file':       '04b_generators.md',
