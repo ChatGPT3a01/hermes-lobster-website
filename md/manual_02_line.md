@@ -1,5 +1,10 @@
 # 💚 Step 2：申請 LINE Bot
 
+> [!IMPORTANT]
+> **這一頁的 4 樣金鑰，兩條路線都會用到**：
+> - **官方原生方案**（推薦）→ 拿到後看「💚 LINE 官方原生方案」
+> - **Bridge 方案**（進階）→ 拿到後繼續看 Step 3/4/5
+
 > 預估時間：10 分鐘
 > 目標：拿到 **Channel ID**、**Channel Secret**、**Channel Access Token**、你的 **User ID** 四樣東西
 

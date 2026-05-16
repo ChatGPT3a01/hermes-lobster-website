@@ -1,10 +1,42 @@
-# LINE 機器人設定
+# LINE Bridge 方案（進階／已有舊系統用）
+
+> [!IMPORTANT]
+> **🆕 2026/5 起 HermesAgent 已官方內建 LINE 支援！**
+> 新學員請優先看 → **「💚 LINE 官方原生方案」**（左側目錄），架構從 3 視窗簡化為 2 視窗、Webhook URL 可固定（Cloudflare Tunnel）、內建 postback 按鈕省 Push API 費用、支援圖音影多媒體。
+>
+> 這一頁是 **Bridge 方案（阿亮老師自製）**，**保留**給以下三類使用者：
+> 1. 已經跑 Bridge 跑得好的學員（不要為了「換」而換）
+> 2. 想自架 humanizer / 客製 LLM 路由的進階玩家
+> 3. 書中提到「LINE Bridge」的章節讀者
+
+---
+
+## 該走官方原生還是 Bridge？
+
+| 我的情況 | 推薦路線 |
+|---------|---------|
+| 第一次裝 LINE Bot | **官方原生**（左側「💚 LINE 官方原生」）|
+| 想用語音、圖片回覆 | **官方原生**（內建 `LINE_PUBLIC_URL` 媒體機制）|
+| 想固定 webhook URL 不用每次更新 | **官方原生 + Cloudflare Tunnel** |
+| Bridge 已經跑兩個月很穩 | **留在 Bridge**，沒必要換 |
+| 我要在 Bridge 裡塞 humanizer / 改字 | **Bridge** |
+| 我要走獨立 LLM 路由（不靠 Hermes Gateway 統一管理 LLM） | **Bridge** |
+| 書本提到 Bridge 的章節我要照做 | **Bridge** |
 
 > [!WARNING]
-> LINE 整合為**阿亮老師自製 Bridge 方案**（非 HermesAgent 官方內建功能）。  
-> 透過 Node.js Bridge 將 LINE Webhook 轉接至 HermesAgent API，需搭配 ngrok 運作。
+> **⚠️ Webhook URL 路徑不要混！**
+> | 方案 | Webhook URL 後綴 |
+> |------|-----------------|
+> | 官方原生 | `/line/webhook`（**雙段**）|
+> | Bridge（這頁）| `/webhook`（**單段**）|
+>
+> 混了就連不上。
 
-LINE 需要透過「LINE Bridge」橋接程式，並搭配 ngrok 建立公開 HTTPS URL。整個架構略複雜，但阿亮老師的安裝精靈已幫你自動完成！
+---
+
+## Bridge 方案介紹
+
+透過 Node.js Bridge 將 LINE Webhook 轉接至 LLM API（不是 Hermes Gateway），需搭配 ngrok 建立公開 HTTPS URL。整個架構略複雜，但阿亮老師的安裝精靈已幫你自動完成！
 
 ---
 
