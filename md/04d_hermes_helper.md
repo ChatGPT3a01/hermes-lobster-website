@@ -1,7 +1,12 @@
-# 🦞 開啟／修復助手 V2.0 完整教學
+# 🦞 開啟／修復助手 V2.1 完整教學
 
 > 阿亮老師為學員打造的**圖形化萬用工具**——雙擊就能啟動 Hermes、診斷環境、修復常見問題、啟動隧道，**全程不用打任何指令**。
 > 卡關時把右側日誌截圖傳給阿亮老師，老師就能立刻看到你的環境狀態。
+
+> [!IMPORTANT]
+> **V2.1 重要變動**：主推 **Windows Native 路線**（V6.53+），WSL2 降為「舊／進階」。
+> 一般學員**完全不需要碰 WSL**——直接用 `install-hermes.exe` 裝 Windows native 版，所有指令在 PowerShell 跑。
+> 移除「🐧 開啟 WSL Ubuntu 終端」按鈕。
 
 ---
 
@@ -23,9 +28,9 @@
 
 ### Step 1：下載
 
-從教學網站首頁右上角點 **「🦞 開啟/修復助手」** 按鈕，會下載 `HermesHelper-V2.0.zip`（約 10 MB）。
+從教學網站首頁右上角點 **「🦞 開啟/修復助手」** 按鈕，會下載 `HermesHelper-V2.1.zip`（約 10 MB）。
 
-或直接連結：[HermesHelper-V2.0.zip](HermesHelper-V2.0.zip)
+或直接連結：[HermesHelper-V2.1.zip](HermesHelper-V2.1.zip)
 
 ### Step 2：解壓縮
 
@@ -62,35 +67,46 @@ python "你的路徑\hermes_helper.py"
 
 ---
 
-## 🖥️ V2.0 介面導覽
+## 🖥️ V2.1 介面導覽
 
 打開後會看到一個**橘色標題**的視窗。主畫面分**左半邊（操作）**和**右半邊（執行日誌）**。
 
 ### 標題列確認版本
 
 ```
-🦞 愛馬仕龍蝦 HermesAgent 開啟/修復助手 V2.0
+🦞 愛馬仕龍蝦 HermesAgent 開啟/修復助手 V2.1
 ```
 
-右上角會顯示 **V2.0 ｜ 2026-05-16**——確認你是新版而不是 V1.0。
+右上角會顯示 **V2.1（Windows Native 為主）**——確認你是新版而不是 V1.0 / V2.0。
 
 ---
 
-## 📊 環境狀態偵測（自動 9 項）
+## 📊 環境狀態偵測（自動 9 項，Win Native 優先）
 
-開啟後幾秒內，左上「📊 環境狀態」會跑完 9 項偵測：
+開啟後幾秒內，左上「📊 環境狀態」會跑完 9 項偵測。**順序按重要性排列**——上面 6 項是 Windows Native 主推路線，下面 3 項是 WSL 進階用：
+
+### 上半部：Windows Native 主路線（多數學員看這 6 項就好）
 
 | 項目 | 看到 ✅ 代表 | 看到 ❌ 代表 | 怎麼處理 |
 |------|------------|------------|---------|
 | 📂 **安裝資料夾** | 找到 HermesAgent-Installer | 沒在 Downloads | 從教學網站重新下載安裝精靈 |
+| 🪟 **hermes (Win Native 主推)** | Windows PATH 內有 hermes | ❌ 未安裝 | **按「⚙️ 跑 install-hermes.exe」開始安裝**（主要動作）|
 | 🖥️ **Hermes Desktop GUI** | 偵測到 v0.4.3+ 桌面版 | 未安裝（選裝） | 想用 GUI 就到 [Releases](https://github.com/fathah/hermes-desktop/releases) 下載 |
-| 🐧 **WSL2** | Windows 子系統已裝 | 未安裝 | 按下方「⚙️ 跑 install-hermes.exe」 |
-| 🐧 **Ubuntu 發行版** | WSL 內 Ubuntu OK | 未安裝 | 同上 |
-| 🦞 **hermes (WSL)** | WSL 內 hermes 指令存在 | 未安裝 | 按「🔁 重裝 hermes (WSL 內)」 |
-| 🪟 **hermes (Win)** | Windows 原生 hermes | 未安裝（常見） | 沒事，用 WSL 模式就好 |
 | 🌩️ **cloudflared** | Cloudflare Tunnel 已裝 | 未安裝 | `winget install Cloudflare.cloudflared` |
 | 💚 **config.yaml LINE** | LINE 官方原生已啟用 | 未啟用 / 沒 config.yaml | 跑 `hermes gateway setup` 設定 |
 | ✈️ **config.yaml Telegram** | Telegram 已啟用 | 未啟用 / 沒 config.yaml | 跑 `hermes gateway setup` 設定 |
+
+### 下半部：WSL 舊路線（進階／舊系統用，**新學員不用管**）
+
+| 項目 | 顯示意義 |
+|------|---------|
+| 🐧 **WSL2 (進階)** | 灰色表示沒裝沒關係——Windows Native 主推路線完全不需要 WSL |
+| 🐧 **Ubuntu (進階)** | 同上 |
+| 🦞 **hermes (WSL 進階)** | 灰色表示 WSL 沒裝 hermes——Windows Native 用戶不需要 |
+
+> [!NOTE]
+> **WSL 三項顯示「— 未安裝 (Win Native 不需要)」是正常的**，不是壞掉。
+> 只有走 WSL 進階／舊路線的學員才需要這三項變綠色。
 
 ### 「🔄 重新偵測環境」按鈕
 
@@ -127,12 +143,12 @@ python "你的路徑\hermes_helper.py"
 
 ### 🟣 🔁 重啟 Gateway (restart 單步)
 
-**V2.0 修正點**：跑 `hermes gateway restart`（一個指令），**不是** V1.0 的 stop+start（會卡住）。
+**V2.1 修正點**：跑 `hermes gateway restart`（一個指令），**不是** V1.0 的 stop+start（會卡住）。
 
 > [!WARNING]
 > 想叫 AI 自己重啟也記得跟它說「**Restart**」，不要說「Stop 再 Start」——Hermes Gateway 一旦 stop 後可能不會自動 start 起來。
 
-### 🩺 Webhook 健康檢查（V2.0 新功能）
+### 🩺 Webhook 健康檢查（V2.1 新功能）
 
 按下去會跳出輸入框，貼上你的隧道 URL（不含後綴），例如：
 
@@ -163,15 +179,15 @@ https://random-abc.trycloudflare.com
 
 ### ⚙️ 跑 install-hermes.exe（管理員）
 
-**V2.0 修正點**：V6.53 起改用 `install-hermes.exe`（取代舊版 `go.bat`）。
+**V2.1 修正點**：V6.53 起改用 `install-hermes.exe`（取代舊版 `go.bat`）。
 按下後會 UAC 彈窗請你按「是」，**然後安裝精靈就在新視窗開了**——可以選 [1] 全部安裝、[3A] 設 Telegram、[3B] 設 LINE 等等。
 
-### 🖥️ 啟動 Hermes Desktop GUI（V2.0 新增）
+### 🖥️ 啟動 Hermes Desktop GUI（V2.1 新增）
 
 如果偵測到桌面版 GUI，按下去就會啟動桌面 App。
 **沒裝 Desktop GUI 時**會問你要不要去下載頁面。
 
-### 🌩️ 啟動 Cloudflare Tunnel（V2.0 新增，推薦）
+### 🌩️ 啟動 Cloudflare Tunnel（V2.1 新增，推薦）
 
 跳出小視窗問你要把哪個 port 暴露：
 
@@ -192,7 +208,7 @@ https://random-abc.trycloudflare.com
 
 ### 🚇 啟動 ngrok 隧道（舊）
 
-跟 Cloudflare Tunnel 類似，但走 ngrok。**V2.0 智能化**：依你的 `config.yaml` 自動推薦 port：
+跟 Cloudflare Tunnel 類似，但走 ngrok。**V2.1 智能化**：依你的 `config.yaml` 自動推薦 port：
 - 偵測到 LINE 官方原生啟用 → 預設 8646
 - 否則 → 預設 3000
 
@@ -200,7 +216,7 @@ ngrok 免費版每次 URL 都會變，**長期用建議改 Cloudflare Tunnel**�
 
 ### 🌐 啟動 LINE Bridge（只在 Bridge 方案用）
 
-**V2.0 智能化**：偵測到 `config.yaml` 已啟用 LINE 官方原生時，按下去會跳警告：
+**V2.1 智能化**：偵測到 `config.yaml` 已啟用 LINE 官方原生時，按下去會跳警告：
 
 ```
 你已啟用 LINE 官方原生
@@ -210,7 +226,9 @@ ngrok 免費版每次 URL 都會變，**長期用建議改 Cloudflare Tunnel**�
 
 按取消即可。**走官方原生路線的人這個按鈕用不到**。
 
-### 🔁 重裝 hermes（WSL 內）
+### 🔁 重裝 hermes（Windows PowerShell）
+
+**V2.1 修正點**：改用 Windows PowerShell 跑 `irm | iex` 一行式安裝（不再走 WSL bash）。
 
 跑 NousResearch 官方安裝腳本，**大約 3-5 分鐘**。
 **會問你 Y/N**——按 Y 才會真的跑。
@@ -220,9 +238,9 @@ ngrok 免費版每次 URL 都會變，**長期用建議改 Cloudflare Tunnel**�
 - 升級到最新版
 - 卡關卡到不行最後一招
 
-### 🐧 開啟 WSL Ubuntu 終端
-
-直接打開 WSL 命令列，方便你手動下指令。
+> [!NOTE]
+> V2.0 這個按鈕走 WSL bash，V2.1 起改成 Windows PowerShell `irm | iex`。
+> **走 Windows Native 路線的學員不用再碰 WSL**。
 
 ---
 
@@ -294,7 +312,7 @@ Cloudflare 連不到你電腦。檢查：
 
 ### Q6：「啟動 LINE Bridge」跳出「你已啟用官方原生」？
 
-**這是 V2.0 的智能提示**，**不是 bug**。
+**這是 V2.1 的智能提示**，**不是 bug**。
 
 代表你已啟用 Hermes 官方原生 LINE，不需要 Bridge。**按「否」即可**，直接用「🚀 啟動 Gateway」就能用 LINE Bot。
 
@@ -304,20 +322,32 @@ Cloudflare 連不到你電腦。檢查：
 
 ---
 
-## 🔄 V2.0 vs V1.0 差異（升級重點）
+## 🔄 V2.1 vs V2.0 / V1.0 差異（升級重點）
 
-| 維度 | V1.0 (2026-05-13) | V2.0 (2026-05-16) |
-|------|-------------------|-------------------|
-| 偵測項目 | 5 項 | **9 項** |
-| 重啟 | stop+start（會卡）| **restart 單步** |
-| 安裝按鈕 | go.bat | **install-hermes.exe**（V6.53+）|
-| Webhook 健檢 | ❌ | ✅ |
-| Cloudflare Tunnel | ❌ | ✅ 智能 port |
-| Desktop GUI 啟動 | ❌ | ✅ 偵測到才出 |
-| LINE Bridge 智能提示 | ❌ | ✅ 偵測官方原生會警告 |
-| 左側可捲動 | ❌ | ✅ 滑鼠滾輪 |
+| 維度 | V1.0 | V2.0 | V2.1 |
+|------|-------------------|-------------------|-------------------|
+| 偵測項目 | 5 項 | 9 項 | **9 項，Win Native 優先** |
+| 重啟 | stop+start（卡）| **restart 單步** | restart 單步 |
+| 安裝按鈕 | go.bat | install-hermes.exe | install-hermes.exe |
+| Gateway 操作預設走哪 | WSL 優先 | WSL 優先 | **Windows Native 優先** |
+| 重裝 hermes | WSL bash | WSL bash | **Windows PowerShell irm \| iex** |
+| 🐧 WSL 終端按鈕 | ✅ | ✅ | **❌ 移除** |
+| WSL 偵測顯示 | 紅色 ❌ 嚇人 | 紅色 ❌ 嚇人 | **灰色 (Win Native 不需要)** |
+| Webhook 健檢 | ❌ | ✅ | ✅ |
+| Cloudflare Tunnel | ❌ | ✅ 智能 port | ✅ 智能 port |
+| Desktop GUI 啟動 | ❌ | ✅ | ✅ |
+| LINE Bridge 智能提示 | ❌ | ✅ | ✅ |
+| 左側可捲動 | ❌ | ✅ 滾輪 | ✅ 滾輪 |
 
-**有 V1.0 的學員**：直接下載 V2.0.zip 覆蓋舊的就好，不影響任何資料。
+**有 V1.0 / V2.0 的學員**：直接下載 V2.1.zip 覆蓋舊的就好，不影響任何資料。
+
+### V2.1 為什麼重新定位主推路線？
+
+V6.53 之後官方主推 **Windows Native**（直接在 PowerShell 跑），WSL 已經是舊／進階方案。V2.0 還預設走 WSL 是設計失誤——V2.1 修正回來：
+
+- **預設**：所有 Gateway 指令在 Windows PowerShell 跑
+- **fallback**：只有 Windows native 完全沒裝、WSL 有裝時才走 WSL
+- **WSL 偵測**：顯示「— 未安裝 (Win Native 不需要)」灰色，不再用紅色 ❌ 嚇學員
 
 ---
 
@@ -348,4 +378,4 @@ Cloudflare 連不到你電腦。檢查：
 
 > [!TIP]
 > 這個助手會持續更新，未來版本可能新增更多偵測項目和按鈕。
-> 看標題列 **V2.0 ｜ 2026-05-16** 確認你是不是最新版，舊版下載重灌即可。
+> 看標題列 **V2.1（Windows Native 為主）** 確認你是不是最新版，舊版下載重灌即可。
