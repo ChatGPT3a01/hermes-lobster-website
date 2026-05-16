@@ -42,9 +42,43 @@ HermesAgent 是 [NousResearch](https://nousresearch.com) 開發的通用型 AI A
 
 ---
 
-## 快速開始
+## 快速開始：先選你的路線
 
-### ⚡ 一行指令背後的 10 步自動化
+> [!IMPORTANT]
+> Hermes Agent 在 2026/5 後**有兩條安裝路線**：圖形化的 **Desktop GUI**（新手首選）和原本的 **CLI 一鍵安裝精靈**（進階／開發者）。
+> 兩條路線**底層共用同一個 `~/.hermes`**，沒有衝突，挑你舒服的那條開始。
+
+| 路線 | 適合 | 安裝時間 | 學習曲線 |
+|------|------|---------|---------|
+| 🖥️ **Hermes Desktop GUI** | 零基礎、長輩、老師、教學示範 | 5 分鐘 | ⭐ |
+| ⚡ **CLI 一鍵安裝精靈** | 想接 LINE / 想深度客製 / 寫腳本自動化 | 30 分鐘 | ⭐⭐⭐ |
+
+---
+
+### 🖥️ 路線 1：Hermes Desktop GUI（新手首選，2026-05 新增）
+
+最新版 **v0.4.3**（2026-05-15 發布），雙擊安裝、零終端機。
+
+> ⬇️ **[到官方 Releases 下載](https://github.com/fathah/hermes-desktop/releases)**：Windows `.exe` / Mac `.dmg` / Linux `.AppImage`
+> 📖 **詳細教學請看左側「🖥️ Hermes Desktop GUI」那一頁**
+
+| 平台 | 直接下載連結 |
+|------|-------------|
+| 🪟 Windows 10/11 | [hermes-desktop-0.4.3-setup.exe](https://github.com/fathah/hermes-desktop/releases/download/v0.4.3/hermes-desktop-0.4.3-setup.exe) |
+| 🍎 Mac (M1/M2/M3/M4) | [hermes-desktop-0.4.3-arm64.dmg](https://github.com/fathah/hermes-desktop/releases/download/v0.4.3/hermes-desktop-0.4.3-arm64.dmg) |
+| 🍎 Mac (Intel) | [hermes-desktop-0.4.3-x64.dmg](https://github.com/fathah/hermes-desktop/releases/download/v0.4.3/hermes-desktop-0.4.3-x64.dmg) |
+| 🐧 Linux | [hermes-desktop-0.4.3.AppImage](https://github.com/fathah/hermes-desktop/releases/download/v0.4.3/hermes-desktop-0.4.3.AppImage) |
+
+- ✅ 免 WSL2、免命令列、免右鍵以管理員身分執行
+- ✅ 內建：聊天、Profile、記憶、Skills、Tools、16 種訊息網關、Cron 排程
+- ✅ MIT 授權開源，Nous Research 在官方 README 認可
+- ⚠️ **不支援 LINE Bot**（要 LINE → 用下面路線 2 或看「💚 LINE 機器人設定」）
+
+---
+
+### ⚡ 路線 2：CLI 一鍵安裝精靈（進階／開發者）
+
+#### 一行指令背後的 10 步自動化
 
 過去要打十多個指令、檢查一堆錯誤的繁瑣安裝流程，現在被官方濃縮成**一行 PowerShell 指令**：
 
@@ -58,17 +92,17 @@ irm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/ins
 > [!TIP]
 > 詳細 10 步流程說明、可選旗標、資料目錄差異請見「Windows 安裝教學」頁。
 
-### 🪟 Windows 一鍵安裝精靈（推薦新手）
+#### 🪟 Windows 一鍵安裝精靈（阿亮老師加值版）
 
 > ⬇️ **[點我下載 Windows 一鍵安裝精靈（ZIP）](HermesAgent-Installer.zip)**
 
 阿亮老師的安裝精靈在官方 10 步基礎上，**額外加上 LINE Bridge（官方原生不支援）+ Telegram 引導 + ngrok 自動設定 + Windows 已知 bug 修復**。
 
 1. 下載並解壓縮安裝精靈
-2. 對 `go.bat` 按右鍵 → **以系統管理員身分執行**
+2. 雙擊 `install-hermes.exe`（V6.53 起取代 `go.bat`，不會跳黑視窗）
 3. 選擇 **[1] 全部安裝**，跟著精靈走！
 
-### 🍎 Mac 一鍵安裝腳本
+#### 🍎 Mac 一鍵安裝腳本
 
 > ⬇️ **[點我下載 Mac 一鍵安裝腳本（Shell Script）](install-hermes-mac.sh)**
 
@@ -79,7 +113,7 @@ irm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/ins
 bash install-hermes-mac.sh
 ```
 
-### 🤖 AI Agent 自動安裝（有 Claude Code / Codex CLI 的用這個！）
+#### 🤖 AI Agent 自動安裝（有 Claude Code / Codex CLI 的用這個！）
 
 已安裝 Claude Code 或 Codex CLI？下載解壓縮後，進資料夾啟動 AI，貼上這句話：
 
@@ -91,14 +125,25 @@ AI 會自己讀腳本、執行、排錯、完成安裝。詳細說明見左側�
 
 ---
 
+### 🔄 已經有 OpenClaw 龍蝦？想無痛轉移？
+
+兩個工具**可以同時跑在同一台電腦**互不衝突。看左側「🔄 從 OpenClaw 無痛轉移」那一頁。
+
+### 🔶 已經用 Claude Desktop？想串免費 / 本地 LLM？
+
+Claude Desktop 2026/4 起新增 **Cowork on Third-Party Platforms**，能改走 OpenRouter / Ollama。看左側「🔶 Claude Cowork 第三方 API」那一頁。
+
+---
+
 ## 學習路徑
 
 ```
 Step 1  →  認識 HermesAgent
 Step 2  →  了解使用情境
-Step 3  →  選擇安裝方式（Windows 或 Mac）
-Step 4  →  設定 Telegram 或 LINE
-Step 5  →  熟悉常用指令
+Step 3  →  挑路線：Desktop GUI（新手）or CLI 一鍵安裝（進階）
+Step 4  →  設定 AI 大腦（OpenRouter / Gemma 4 / Ollama 三選一）
+Step 5  →  設定 Telegram 或 LINE
+Step 6  →  熟悉常用指令、進階功能
 ```
 
 點選左側目錄，開始你的 AI 管家之旅！
@@ -107,3 +152,4 @@ Step 5  →  熟悉常用指令
 
 > [!TIP]
 > **建議從「使用情境」開始讀**，先了解 HermesAgent 能幫你做什麼，再決定要安裝哪些功能！
+> **完全零基礎的人**請直接看「🖥️ Hermes Desktop GUI」那一頁，雙擊安裝就能用。

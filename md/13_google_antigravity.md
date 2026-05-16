@@ -117,9 +117,88 @@ hermes gateway restart
 |------|------|------|------|---------|
 | `gemini-3-flash-preview` | ✅ | ⚡⚡⚡ | 強 | **日常使用推薦（2026 最新）** |
 | `gemini-3.1-pro-preview` | ✅ (限量) | ⚡⚡ | 最強 | 複雜推理/旗艦任務 |
+| `gemma-4-31b-it` | ✅ **完全無限** | ⚡⚡ | 中上 | **Hermes Agent 內建 Provider 選單推薦** |
+| `gemma-4-26b-it` | ✅ **完全無限** | ⚡⚡⚡ | 中 | 輕量任務、本地化測試 |
 
 > [!TIP]
 > 建議先用 `gemini-3-flash-preview`，速度快又免費。有需要更強的推理再換 pro。
+
+---
+
+## 進階：在 Hermes Agent 內選 Google AI Studio + Gemma 4
+
+如果你是跟 **Hermes Agent CLI** 或 **Hermes Desktop GUI** 配合使用，第一次設定 Provider 的時候會看到一張很長的選單列表，直接挑這條路最省事：
+
+### CLI 版的選擇路徑
+
+跑 `hermes setup` 後（或第一次安裝時）：
+
+```text
+Select your LLM provider:
+  > Nous Portal
+    OpenRouter
+    Anthropic
+    OpenAI
+  > Google (AI Studio)        ← 選這個
+    xAI (Grok)
+    Qwen
+    MiniMax
+    Hugging Face
+    Groq
+    Local / Custom
+```
+
+選 **Google (AI Studio)** → 貼上你的 `AIzaSy...` Key → Baseline 直接 Enter → **模型清單會列出 Gemma 4 兩個版本**：
+
+```text
+Select model:
+  > gemma-4-31b-it    ← 推薦（智力比較高）
+    gemma-4-26b-it    ← 較快但智力較低
+    gemini-3-flash-preview
+    gemini-3.1-pro-preview
+```
+
+### Desktop 版的選擇路徑
+
+雙擊 Hermes Desktop → 第一次精靈會問你要的 Provider：
+
+1. 選 **Google (Gemini)** 那一格
+2. 貼上 Key
+3. 在 **Model** 下拉式選單裡挑 `gemma-4-31b-it`
+4. 按 **Save & Continue**
+
+完成。Desktop **Settings → Models** 隨時可以切回 `gemini-3-flash-preview` 或別的 Provider。
+
+---
+
+## 為什麼 Gemma 4 適合搭 Hermes？
+
+| 比較 | gemini-3-flash-preview | gemma-4-31b-it |
+|------|------------------------|----------------|
+| 免費 | ✅ 但每分鐘 15 次上限 | ✅ **完全沒上限**（Google AI Studio 把它當開源模型推廣） |
+| 速度 | 快 | 中等 |
+| 智力 | 較高 | 中上（Hermes Agent 大部分任務夠用） |
+| 中文能力 | 優秀 | 良好 |
+| 多步驟工具使用 | ✅ 穩定 | ✅ 穩定（Hermes 官方測試過） |
+
+> [!NOTE]
+> Gemma 4 是 Google 近期開源的模型家族（**Gemma**，跟 **Gemini** 是兩條產品線）。
+> Google AI Studio 為了推廣開源模型，把 Gemma 系列設成「無上限」可呼叫，**很適合拿來當 Hermes 的 24/7 大腦**。
+
+---
+
+## 安全提示：請使用「未綁卡」帳號當 Hermes 主力 Key
+
+申請 API Key 時有兩種帳號：
+
+| 帳號類型 | 看到的標籤 | 風險 |
+|---------|-----------|------|
+| **未綁信用卡** | `Free Tier` | ✅ 額度用完只會冷卻幾小時，**絕對不會扣到錢** |
+| 已綁信用卡 | 顯示用量 / 帳單 | ⚠️ 一旦切到付費等級，超量會直接從信用卡扣款 |
+
+**強烈建議**：開一個專門的 Google 帳號（小帳）來申請 Key，**不要綁信用卡**。
+
+在 Google AI Studio 的 API Key 列表頁，每個 Key 旁邊會明確標 `Free Tier`，**確認是這個字才安心放心用**。
 
 ---
 
